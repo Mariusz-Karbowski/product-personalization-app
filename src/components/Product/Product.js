@@ -5,14 +5,24 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import shortid from 'shortid';
 
-const Product = ({ name, title, colors, sizes, basePrice }) => {
+const Product = ({ name, title, colors, sizes, basePrice }) => {  
   const [currentColor, setCurrentColor] = useState(colors[0]);
   const [currentSize, setCurrentSize] = useState(sizes[0]);
   const colorClassName = color => {
     return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
   }
   const getPrice = () => {
-    return(basePrice + sizes.find((addition) => addition === currentSize).additionalPrice);
+    return(basePrice + sizes.find((element) => element === currentSize).additionalPrice);
+  }
+  const addToCart = event => {
+    event.preventDefault();
+    console.log('');
+    console.log('Summary');
+    console.log('============');
+    console.log('Name:', title);
+    console.log('Price:', getPrice());
+    console.log('Size:', currentSize.name);
+    console.log('Color:', currentColor);
   }
   return (
     <article className={styles.product}>
@@ -27,7 +37,7 @@ const Product = ({ name, title, colors, sizes, basePrice }) => {
           <h2 className={styles.name}>{title}</h2>
           <span className={styles.price}>Price: {getPrice()}$</span>
         </header>
-        <form>
+        <form onSubmit={addToCart}>
           <div className={styles.sizes}>
             <h3 className={styles.optionLabel}>Sizes</h3>
             <ul className={styles.choices}>
